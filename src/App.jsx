@@ -1,96 +1,16 @@
 import React, { useState } from 'react';
 
-import {Navigate} from 'react-router-dom';
+// import {Navigate} from 'react-router-dom';
 
 import illustrationImageDesktop from './assets/images/illustration-sign-up-desktop.svg';
 import illustrationImageMobile from './assets/images/illustration-sign-up-mobile.svg';
 import iconList from './assets/images/icon-list.svg';
+import EmailSection from './component/emailSection/emailSection';
 
-// email component
-function EmailComponent({ value, onChange }) {
-  return (
-    <input 
-      type="email" 
-      id="email"
-      value={value}
-      onChange={onChange} 
-      placeholder='email@company.com'
-      className='border rounded-md p-2 pl-4 font-robotoRegular text-CharcoalGrey text-mediumSize cursor-pointer w-full xl:text-baseSize'
-    />
-  )
-}
-
-// button component
-function ButtonComponent({ onClick }) {
-  return (
-    <>
-      <button
-        onClick={onClick} 
-        className='bg-DarkSlateGrey text-white text-belowSize font-robotoBold py-3 rounded w-full hover:bg-Tomato xl:text-baseSize hover:shadow-colorShadow'>
-        Subscribe to monthly newsletter
-      </button>
-    </>
-  )
-}
-
-// stats change area
-// email validation message
-// email input
-// button input
-function ActivityArea() {
-  const [emailInput, setEmailInput] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
-  const [validEmail, setValidEmail] = useState(false);
-
-  // email validation
-  function EmailFormat(mail) {
-    return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(mail);
-  }
-
-  // Button click action for email validation
-  // wrong ip > different err msg for empty and non-valid input
-  // right ip > no err msg, set valid email (to navigate thank you page), set email ip in session storage
-  function handleBtnClick() {
-    if(emailInput === "") {
-      setErrorMsg('Enter your Email')
-    } else if(!EmailFormat(emailInput)) {
-      setErrorMsg('Valid email required');
-    } else {
-      setErrorMsg('');
-      setValidEmail(true);
-      sessionStorage.setItem("userEmail", emailInput);
-    }
-  }
-
-  // for email input
-  function handleEmailChange(e) {
-    setEmailInput(e.target.value);
-  }
-
-  return (
-    <div className='sm:mt-2'>
-      {validEmail ? (
-        <Navigate to = "/thankyou"/>
-      ):(
-        <>
-          <div className='flex flex-col space-y-1'>
-            <div className='flex justify-between'>
-              <small className='text-DarkSlateGrey font-robotoBold'>Email address</small>
-              <small className='text-Tomato font-robotoBold'>{errorMsg}</small>
-            </div>
-            <EmailComponent value={emailInput} onChange={handleEmailChange} />
-          </div>
-          <ButtonComponent onClick={handleBtnClick} />  
-        </>
-      )}
-    </div> 
-  );
-}
 
 // main page component
-function App() {
+export default function App() {
   return (
-    <>
       <div className='white-space flex flex-col-reverse items-center space-x-0 bg-white p-0 pb-10 sm:flex-row sm:space-x-2 sm:p-2 sm:pb-2'>
         {/* text part*/}
         <main className='flex-1 px-7'>
@@ -114,7 +34,7 @@ function App() {
               </li>
             </ul>
             
-            <ActivityArea />
+            <EmailSection />
           </div>
         </main>
 
@@ -122,10 +42,5 @@ function App() {
         <img className='flex-1 illustration hidden sm:block' src={illustrationImageDesktop} alt='Illustration desktop' />
         <img className='flex-1 illustration block sm:hidden' src={illustrationImageMobile} alt='Illustration mobile' />
       </div>
-      
-    </>
   );
 }
-
-// export default App;
-export default App;
